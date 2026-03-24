@@ -4,13 +4,18 @@
  * inicialização alternativas ou quando a classe não possui um construtor primário.
  */
 
+
 package construtores.secundario
 
 class Customer {
-    var name: String                // info: propriedade declarada no corpo da classe (precisa ser inicializada)
+    var name: String                // info: propriedade declarada no corpo da classe
 
-    constructor(name: String?) {    // info: construtor secundário que aceita um valor nulo
-        this.name = name ?: "Joe"   // info: operador Elvis (?:) garante um valor padrão caso seja null
+    constructor(name: String?) {    // info: 1º construtor secundário (aceita String ou null)
+        this.name = name ?: "Joe"
+    }
+
+    constructor() {                 // info: 2º construtor secundário (sem argumentos)
+        this.name = "Mary"          // info: define um valor fixo padrão para chamadas vazias
     }
 }
 
@@ -19,10 +24,11 @@ fun main() {
         Customer("Moe"),
         Customer("Larry"),
         Customer("Curly"),
-        Customer(null)              // info: chamando o construtor secundário com null
+        Customer(null),              // info: cai no 1º construtor (resultado: "Joe")
+        Customer()                   // info: cai no 2º construtor (resultado: "Mary")
     )
 
     for (c in customers) {
-        println(c.name)             // info: imprimirá os nomes ou "Joe" para o caso nulo
+        println(c.name)
     }
 }
